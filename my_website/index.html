@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Disneyland Park | Theme Park</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Montserrat:wght@700&display=swap');
+
+  :root {
+    --primary-blue: #f04029;
+    --secondary-gold: #f9a825;
+    --background-light: #fefefe;
+    --text-dark: #222;
+    --text-light: #fff;
+    --shadow-light: rgba(0,0,0,0.1);
+    --border-radius: 12px;
+    --transition-time: 0.3s;
+  }
+  body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    min-height: 60vh;
+    line-height: 1.5;
+  }
+  a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  nav {
+    background-color: var(--primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px var(--shadow-light);
+    flex-wrap: wrap;
+  }
+  nav .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--text-light);
+    user-select: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  nav ul li a {
+    color: var(--text-light);
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    transition: background-color var(--transition-time), color var(--transition-time);
+    display: inline-block;
+  }
+  nav ul li a:hover,
+  nav ul li a.active,
+  nav ul li a:focus-visible {
+    background-color: var(--secondary-gold);
+    color: var(--primary-blue);
+    outline: none;
+  }
+  main {
+    max-width: 1100px;
+    margin: 3rem auto 6rem;
+    padding: 0 1rem;
+    min-height: 60vh;
+  }
+  section.screen {
+    display: none;
+    outline: none;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  section.screen.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  header.hero {
+    position: relative;
+    background: url('https://cdn.discordapp.com/attachments/1242139519319277718/1383647710779015230/3.PNG?ex=684f8dd9&is=684e3c59&hm=383c2b908df2960d0336a992f37e29873f56af227657e1d4c03131aa1ec24a2f&') center/cover no-repeat;
+    height: 70vh;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 1rem;
+    border-radius: 12px;
+  }
+  header.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(236, 36, 9, 0.6) 30%, rgba(0,0,0,0.6) 90%);
+    z-index: 0;
+    border-radius: 12px;
+  }
+  header.hero > div {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+  }
+  header.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: 1.5px;
+  }
+  header.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  header.hero a.cta-btn {
+    background-color: var(--secondary-gold);
+    color: var(--primary-blue);
+    font-weight: 700;
+    padding: 1rem 3rem;
+    border-radius: 40px;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 20px rgba(250, 248, 246, 0.7);
+    display: inline-block;
+    transition: background-color var(--transition-time), box-shadow var(--transition-time);
+  }
+  header.hero a.cta-btn:hover,
+  header.hero a.cta-btn:focus-visible {
+    background-color: #e02727;
+    box-shadow: 0 12px 35px rgba(252, 251, 249, 0.9);
+    outline: none;
+  }
+  h2.section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.4rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid var(--primary-blue);
+    padding-bottom: 0.5rem;
+  }
+  ul.list {
+    list-style: none;
+    padding-left: 0;
+  }
+  ul.list li {
+    background: #f0f4ff;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    color: var(--primary-blue);
+    cursor: pointer;
+  }
+  ul.list li:hover,
+  ul.list li:focus-visible {
+    background-color: var(--secondary-gold);
+    color: var(--primary-blue);
+    outline: none;
+  }
+  footer {
+    background-color: var(--primary-blue);
+    color: var(--text-light);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+    user-select: none;
+  }
+
+  /* Ticket Form Styles */
+  form#ticketForm {
+    max-width: 400px;
+    background: #f0f4ff;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+  }
+  form#ticketForm label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+  }
+  form#ticketForm input,
+  form#ticketForm select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  form#ticketForm button {
+    background-color: var(--secondary-gold);
+    color: var(--primary-blue);
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(249,168,37,0.7);
+    transition: background-color var(--transition-time), box-shadow var(--transition-time);
+  }
+  form#ticketForm button:hover,
+  form#ticketForm button:focus-visible {
+    background-color: #c68500;
+    box-shadow: 0 12px 35px rgba(198,133,0,0.9);
+    outline: none;
+  }
+  #formMessage {
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  .success-message {
+    color: green;
+  }
+  .error-message {
+    color: red;
+  }
+
+  /* Shows Cards */
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: #f0f4ff;
+    border-radius: var(--border-radius);
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: box-shadow var(--transition-time), transform var(--transition-time);
+    cursor: default;
+  }
+  .card:hover,
+  .card:focus-within {
+    box-shadow: 0 8px 25px rgba(0,70,190,0.3);
+    transform: translateY(-4px);
+    outline: none;
+  }
+  .card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
+    color: var(--primary-blue);
+  }
+  .card time {
+    display: block;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.9rem;
+  }
+  .card p {
+    margin: 0;
+    color: #333;
+    font-size: 1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav {
+      justify-content: center;
+      gap: 1rem;
+    }
+    nav ul {
+      justify-content: center;
+      gap: 1rem;
+    }
+    header.hero h1 {
+      font-size: 2.2rem;
+    }
+    header.hero p {
+      font-size: 1rem;
+    }
+    main {
+      margin: 2rem 1rem 4rem;
+    }
+  }
+  @media (max-width: 480px) {
+    nav {
+      flex-direction: column;
+      padding: 1rem;
+    }
+    nav .logo {
+      margin-bottom: 0.5rem;
+    }
+    nav ul {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    header.hero {
+      height: 50vh;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav role="navigation" aria-label="Primary navigation">
+  <div class="logo" tabindex="0">Disneyland Park</div>
+  <ul>
+    <!-- Open/Closed status display -->
+<div id="openClosedStatus" class="open-closed-status open" aria-live="polite" aria-atomic="true" aria-label="Park status">
+  Open
+</div>
+
+<style>
+  .open-closed-status {
+    font-weight: bold;
+    font-size: 2.1rem;
+    padding: 0.5em 1em;
+    border-radius: 1.2em;
+    width: fit-content;
+    user-select: none;
+  }
+  .open-closed-status.open {
+    background-color: #28a745; /* green */
+    color: white;
+  }
+  .open-closed-status.closed {
+    background-color: #d32e2e; /* red */
+    color: rgb(233, 226, 226);
+  }
+</style>
+
+<script>
+  function setOpenClosedStatus(isOpen) {
+    const statusEl = document.getElementById('openClosedStatus');
+    if (isOpen) {
+      statusEl.textContent = 'Open';
+      statusEl.classList.add('open');
+      statusEl.classList.remove('closed');
+    } else {
+      statusEl.textContent = 'Closed';
+      statusEl.classList.add('closed');
+      statusEl.classList.remove('open');
+    }
+  }
+
+  // Example usage:
+  // Initially set to open:
+  setOpenClosedStatus(false);
+
+  // Or to closed:
+  // setOpenClosedStatus(false);
+</script>
+<!-- Warning Banner -->
+<div id="warningBanner" style="
+  background-color: #ffee04;
+  border: 1px solid #000000;
+  color: #000000;
+  font-weight: 100;
+  padding: 12px 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 6px rgba(255, 179, 71, 0.3);
+  user-select: none;
+">
+  ⚠ We are working on the website, so there may be some issues. Please contact us if you need any help.
+</div>
+
+
+
+<li><a href="#" class="nav-link active" data-target="home" aria-current="page">Home</a></li>
+    <li><a href="#" class="nav-link" data-target="attractions">Attractions</a></li>
+    <li><a href="#" class="nav-link" data-target="shows">shows</a></li>
+    <li><a href="#" class="nav-link" data-target="Updates">Updates</a></li>
+    <li><a href="#" class="nav-link" data-target="tickets">Tickets</a></li>
+    <li><a href="#" class="nav-link" data-target="contact">Contact</a></li>
+    </ul>
+</nav>
+<main>
+  <section id="home" class="screen active" tabindex="-1" aria-live="polite" aria-label="Home section">
+    <header class="hero" role="banner">
+      <div>
+        <h1>Welcome to Disneyland Park</h1>
+        <p>The happiest place on earth! Explore magical attractions, shows, and dining.</p>
+        <a href="#" class="cta-btn" id="homeBookBtn">Book Tickets</a>
+      </div>
+    </header>
+  </section>
+
+  <section id="attractions" class="screen" tabindex="-1" aria-live="polite" aria-label="Attractions section">
+    <h2 class="section-title">Popular Attractions</h2>
+    <ul class="list" role="list" aria-label="List of attractions">
+      <li tabindex="0">Space Mountain</li>
+      <li tabindex="0">Pirates of the Caribbean</li>
+      <li tabindex="0">Haunted Mansion</li>
+      <li tabindex="0">Splash Mountain</li>
+      <li tabindex="0">It's a Small World</li>
+    </ul>
+  </section>
+
+  <section id="shows" class="screen" tabindex="-1" aria-live="polite" aria-label="Shows section">
+    <h2 class="section-title">shows</h2>
+    <div class="cards-container" role="list" aria-label="List of Shows">
+      <article class="card" tabindex="0" role="listitem">
+        <h3>Fantasmic! Night Show</h3>
+        <time datetime="2025-06-20T21:00">June 20, 2025 - 9:00 PM</time>
+        <p>Experience the spectacular nighttime show featuring fireworks, water effects, and beloved Disney characters.</p>
+      </article>
+      <article class="card" tabindex="0" role="listitem">
+        <h3>Mickey's Magic Parade</h3>
+        <time datetime="2025-06-22T15:00">June 22, 2025 - 3:00 PM</time>
+        <p>Join Mickey and friends in a colorful parade filled with music, dancing, and magic along Main Street.</p>
+      </article>
+      <article class="card" tabindex="0" role="listitem">
+        <h3>Frozen Sing-Along</h3>
+        <time datetime="2025-06-25T12:30">June 25, 2025 - 12:30 PM</time>
+        <p>Sing along with Elsa, Anna, and Olaf in this interactive musical show suitable for all ages.</p>
+      </article>
+    </div>
+  </section>
+
+<section id="Updates" class="screen" tabindex="-1" aria-live="polite" aria-label="Updates section">
+    <h2 class="section-title">Updates</h2>
+    <div class="cards-container" role="list" aria-label="List of Updates">
+      <article class="card" tabindex="0" role="listitem">
+        <h3>Fantasmic! Night Show</h3>
+        <time datetime="2025-06-20T21:00">June 20, 2025 - 9:00 PM</time>
+        <p>Experience the spectacular nighttime show featuring fireworks, water effects, and beloved Disney characters.</p>
+      </article>
+      <article class="card" tabindex="0" role="listitem">
+        <h3>Mickey's Magic Parade</h3>
+        <time datetime="2025-06-22T15:00">June 22, 2025 - 3:00 PM</time>
+        <p>Join Mickey and friends in a colorful parade filled with music, dancing, and magic along Main Street.</p>
+      </article>
+      <article class="card" tabindex="0" role="listitem">
+        <h3>Frozen Sing-Along</h3>
+        <time datetime="2025-06-25T12:30">June 25, 2025 - 12:30 PM</time>
+        <p>Sing along with Elsa, Anna, and Olaf in this interactive musical show suitable for all ages.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="tickets" class="screen" tabindex="-1" aria-live="polite" aria-label="Tickets section">
+    <h2 class="section-title">Book Your Tickets</h2>
+    <form id="ticketForm" aria-describedby="formMessage" novalidate>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required aria-required="true" />
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required aria-required="true" />
+
+      <label for="ticketType">Ticket Type</label>
+      <select id="ticketType" name="ticketType" required aria-required="true">
+        <option value="" disabled selected>Select a ticket type</option>
+        <option value="one-day">One-Day Ticket</option>
+        <option value="multi-day">Multi-Day Ticket</option>
+        <option value="annual-pass">Annual Pass</option>
+      </select>
+
+      <button type="submit" aria-live="polite">Book Now</button>
+      <div id="formMessage" role="alert" aria-live="assertive"></div>
+    </form>
+  </section>
+
+  <section id="contact" class="screen" tabindex="-1" aria-live="polite" aria-label="Contact section">
+    <h2 class="section-title">Contact Us</h2>
+    <p>For inquiries, email us at <a href="mailto:disneylandparkonroblox1@gmail.com">disneylandparkonroblox1@gmail.com</a> or coming soon.</p>
+  </section>
+</main>
+
+<footer>
+    <!-- Early Access Banner -->
+<div id="earlyAccessBanner" style="
+  background-color: #fdec00;
+  border: 1px solid #000000;
+  color: #000000;
+  font-weight: 100;
+  padding: 12px 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 6px rgba(240, 192, 64, 0.3);
+  user-select: none;
+">
+  🛠️ Join our Early Access and help us test new features as they are released.
+</div>
+  &copy; 2025 Disneyland Park. All rights reserved.
+</footer>
+
+<script>
+  // Navigation
+  const navLinks = document.querySelectorAll('nav .nav-link');
+  const screens = document.querySelectorAll('section.screen');
+  const homeBookBtn = document.getElementById('homeBookBtn');
+
+  function setActiveSection(targetId) {
+    screens.forEach(screen => {
+      if (screen.id === targetId) {
+        screen.classList.add('active');
+        screen.setAttribute('tabindex', '-1');
+        screen.focus();
+      } else {
+        screen.classList.remove('active');
+      }
+    });
+    navLinks.forEach(link => {
+      if (link.dataset.target === targetId) {
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = e.currentTarget.dataset.target;
+      setActiveSection(target);
+    });
+  });
+
+  homeBookBtn.addEventListener('click', e => {
+    e.preventDefault();
+    setActiveSection('tickets');
+    document.getElementById('name').focus();
+  });
+
+  // Ticket form submission with Discord webhook
+  const ticketForm = document.getElementById('ticketForm');
+  const formMessage = document.getElementById('formMessage');
+
+  ticketForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formMessage.textContent = '';
+    formMessage.className = '';
+
+    const name = ticketForm.name.value.trim();
+    const email = ticketForm.email.value.trim();
+    const ticketType = ticketForm.ticketType.value;
+
+    if (!name || !email || !ticketType) {
+      formMessage.textContent = 'Please fill in all required fields.';
+      formMessage.className = 'error-message';
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      formMessage.textContent = 'Please enter a valid email address.';
+      formMessage.className = 'error-message';
+      return;
+    }
+
+    ticketForm.querySelector('button[type="submit"]').disabled = true;
+
+    const webhookURL = 'https://discord.com/api/webhooks/1383624872437088308/g2N1-j2drJBtwBN32x66eDrDIknwj25-xJHNXk-vm0PYGOh9_ASvG5X7nmCqdjW1gKVQ'; // Replace this
+
+    const payload = {
+      username: "Disneyland Ticket Bot",
+      embeds: [
+        {
+          title: "New Ticket Booking",
+          color: 0x0046be,
+          fields: [
+            { name: "Name", value: name, inline: true },
+            { name: "Email", value: email, inline: true },
+            { name: "Ticket Type", value: ticketType, inline: false },
+          ],
+          timestamp: new Date().toISOString()
+        }
+      ]
+    };
+
+    try {
+      const response = await fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error(`Discord webhook error: ${response.statusText}`);
+
+      formMessage.textContent = 'Thank you! Your ticket booking was sent successfully.';
+      formMessage.className = 'success-message';
+      ticketForm.reset();
+    } catch (error) {
+      console.error('Error sending webhook:', error);
+      formMessage.textContent = 'Oops! Something went wrong. Please try again later.';
+      formMessage.className = 'error-message';
+    } finally {
+      ticketForm.querySelector('button[type="submit"]').disabled = false;
+    }
+  });
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+</script>
+
+</body>
+</html>
+<section id="applications" class="screen" tabindex="-1" aria-live="polite" aria-label="Applications section">
+  <h2 class="section-title">Applications</h2>
+  <form id="applicationForm" aria-describedby="appFormMessage" novalidate>
+    <label for="appName">Full Name</label>
+    <input type="text" id="appName" name="appName" placeholder="Your full name" required aria-required="true" />
+    
+    <label for="appEmail">Email Address</label>
+    <input type="email" id="appEmail" name="appEmail" placeholder="you@example.com" required aria-required="true" />
+    
+    <label for="appMessage">Application Details</label>
+    <textarea id="appMessage" name="appMessage" rows="5" placeholder="Tell us about yourself or your application..." required aria-required="true"></textarea>
+    
+    <button type="submit" aria-live="polite">Submit Application</button>
+    <div id="appFormMessage" role="alert" aria-live="assertive"></div>
+  </form>
+</section>
+
+<style>
+  /* Application form styles (reuse your variables) */
+  #applicationForm {
+    max-width: 450px;
+    background: #f0f4ff;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+  }
+  #applicationForm label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+  }
+  #applicationForm input,
+  #applicationForm textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+  }
+  #applicationForm button {
+    background-color: var(--secondary-gold);
+    color: var(--primary-blue);
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(249,168,37,0.7);
+    transition: background-color var(--transition-time), box-shadow var(--transition-time);
+  }
+  #applicationForm button:hover,
+  #applicationForm button:focus-visible {
+    background-color: #c68500;
+    box-shadow: 0 12px 35px rgba(198,133,0,0.9);
+    outline: none;
+  }
+  #appFormMessage {
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  .success-message {
+    color: green;
+  }
+  .error-message {
+    color: red;
+  }
+</style>
+
+
+
