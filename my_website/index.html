@@ -1,691 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Disneyland Park | Theme Park</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Montserrat:wght@700&display=swap');
+  <meta charset="UTF-8" />
+  <title>Disneyland Park Developer Application Quiz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap');
 
-  :root {
-    --primary-blue: #f04029;
-    --secondary-gold: #f9a825;
-    --background-light: #fefefe;
-    --text-dark: #222;
-    --text-light: #fff;
-    --shadow-light: rgba(0,0,0,0.1);
-    --border-radius: 12px;
-    --transition-time: 0.3s;
-  }
-  body {
-    font-family: 'Open Sans', sans-serif;
-    margin: 0;
-    background-color: var(--background-light);
-    color: var(--text-dark);
-    min-height: 60vh;
-    line-height: 1.5;
-  }
-  a {
-    color: var(--primary-blue);
-    text-decoration: none;
-    cursor: pointer;
-  }
-  nav {
-    background-color: var(--primary-blue);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 6px var(--shadow-light);
-    flex-wrap: wrap;
-  }
-  nav .logo {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 1.8rem;
-    color: var(--text-light);
-    user-select: none;
-  }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
-    flex-wrap: wrap;
-  }
-  nav ul li a {
-    color: var(--text-light);
-    font-weight: 600;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    transition: background-color var(--transition-time), color var(--transition-time);
-    display: inline-block;
-  }
-  nav ul li a:hover,
-  nav ul li a.active,
-  nav ul li a:focus-visible {
-    background-color: var(--secondary-gold);
-    color: var(--primary-blue);
-    outline: none;
-  }
-  main {
-    max-width: 1100px;
-    margin: 3rem auto 6rem;
-    padding: 0 1rem;
-    min-height: 60vh;
-  }
-  section.screen {
-    display: none;
-    outline: none;
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  section.screen.active {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  header.hero {
-    position: relative;
-    background: url('https://cdn.discordapp.com/attachments/1242139519319277718/1383647710779015230/3.PNG?ex=684f8dd9&is=684e3c59&hm=383c2b908df2960d0336a992f37e29873f56af227657e1d4c03131aa1ec24a2f&') center/cover no-repeat;
-    height: 70vh;
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 1rem;
-    border-radius: 12px;
-  }
-  header.hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(236, 36, 9, 0.6) 30%, rgba(0,0,0,0.6) 90%);
-    z-index: 0;
-    border-radius: 12px;
-  }
-  header.hero > div {
-    position: relative;
-    z-index: 1;
-    max-width: 700px;
-  }
-  header.hero h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    letter-spacing: 1.5px;
-  }
-  header.hero p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-  }
-  header.hero a.cta-btn {
-    background-color: var(--secondary-gold);
-    color: var(--primary-blue);
-    font-weight: 700;
-    padding: 1rem 3rem;
-    border-radius: 40px;
-    font-size: 1.2rem;
-    box-shadow: 0 8px 20px rgba(250, 248, 246, 0.7);
-    display: inline-block;
-    transition: background-color var(--transition-time), box-shadow var(--transition-time);
-  }
-  header.hero a.cta-btn:hover,
-  header.hero a.cta-btn:focus-visible {
-    background-color: #e02727;
-    box-shadow: 0 12px 35px rgba(252, 251, 249, 0.9);
-    outline: none;
-  }
-  h2.section-title {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 2.4rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 3px solid var(--primary-blue);
-    padding-bottom: 0.5rem;
-  }
-  ul.list {
-    list-style: none;
-    padding-left: 0;
-  }
-  ul.list li {
-    background: #f0f4ff;
-    margin-bottom: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    color: var(--primary-blue);
-    cursor: pointer;
-  }
-  ul.list li:hover,
-  ul.list li:focus-visible {
-    background-color: var(--secondary-gold);
-    color: var(--primary-blue);
-    outline: none;
-  }
-  footer {
-    background-color: var(--primary-blue);
-    color: var(--text-light);
-    text-align: center;
-    padding: 1.5rem 1rem;
-    font-size: 0.9rem;
-    user-select: none;
-  }
+    body {
+      background: linear-gradient(to bottom, #f9f3e7, #c7d9f1);
+      font-family: 'Montserrat', sans-serif;
+      color: #2a2a2a;
+      margin: 0;
+      padding: 20px;
+    }
 
-  /* Ticket Form Styles */
-  form#ticketForm {
-    max-width: 400px;
-    background: #f0f4ff;
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    margin-top: 1rem;
-  }
-  form#ticketForm label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-weight: 600;
-    color: var(--primary-blue);
-  }
-  form#ticketForm input,
-  form#ticketForm select {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-  form#ticketForm button {
-    background-color: var(--secondary-gold);
-    color: var(--primary-blue);
-    font-weight: 700;
-    padding: 0.75rem 2rem;
-    border: none;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(249,168,37,0.7);
-    transition: background-color var(--transition-time), box-shadow var(--transition-time);
-  }
-  form#ticketForm button:hover,
-  form#ticketForm button:focus-visible {
-    background-color: #c68500;
-    box-shadow: 0 12px 35px rgba(198,133,0,0.9);
-    outline: none;
-  }
-  #formMessage {
-    font-weight: 600;
-    margin-top: 0.5rem;
-  }
-  .success-message {
-    color: green;
-  }
-  .error-message {
-    color: red;
-  }
+    h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 3em;
+      color: #0055a4;
+      text-align: center;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px #b5c6ea;
+    }
 
-  /* Shows Cards */
-  .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 1.5rem;
-  }
-  .card {
-    background: #f0f4ff;
-    border-radius: var(--border-radius);
-    padding: 1.25rem 1.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: box-shadow var(--transition-time), transform var(--transition-time);
-    cursor: default;
-  }
-  .card:hover,
-  .card:focus-within {
-    box-shadow: 0 8px 25px rgba(0,70,190,0.3);
-    transform: translateY(-4px);
-    outline: none;
-  }
-  .card h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 0.4rem;
-    color: var(--primary-blue);
-  }
-  .card time {
-    display: block;
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 0.9rem;
-  }
-  .card p {
-    margin: 0;
-    color: #333;
-    font-size: 1rem;
-  }
+    form {
+      max-width: 700px;
+      background: #ffffffdd;
+      padding: 30px 40px;
+      margin: 0 auto;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 85, 164, 0.5);
+      border: 3px solid #0055a4;
+    }
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    nav {
-      justify-content: center;
-      gap: 1rem;
+    h3 {
+      color: #0055a4;
+      border-bottom: 2px solid #f7a600;
+      padding-bottom: 6px;
+      margin-top: 30px;
+      font-weight: 700;
+      font-size: 1.6em;
+      text-shadow: 1px 1px 1px #f7a600aa;
     }
-    nav ul {
-      justify-content: center;
-      gap: 1rem;
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 6px;
     }
-    header.hero h1 {
-      font-size: 2.2rem;
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #0055a4;
+      border-radius: 12px;
+      font-size: 1em;
+      font-family: 'Montserrat', sans-serif;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
     }
-    header.hero p {
-      font-size: 1rem;
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #f7a600;
+      outline: none;
+      box-shadow: 0 0 8px #f7a600aa;
     }
-    main {
-      margin: 2rem 1rem 4rem;
+
+    select[multiple] {
+      height: auto;
+      min-height: 110px;
     }
-  }
-  @media (max-width: 480px) {
-    nav {
-      flex-direction: column;
-      padding: 1rem;
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
     }
-    nav .logo {
-      margin-bottom: 0.5rem;
+
+    button[type="submit"] {
+      background: #f7a600;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 25px;
+      padding: 14px 40px;
+      cursor: pointer;
+      margin-top: 30px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 5px 10px #d48a00;
+      transition: background-color 0.3s ease;
+      font-family: 'Pacifico', cursive;
     }
-    nav ul {
-      flex-direction: column;
-      gap: 0.75rem;
+
+    button[type="submit"]:hover {
+      background: #ffbb33;
+      box-shadow: 0 6px 12px #db9e1e;
     }
-    header.hero {
-      height: 50vh;
+
+    h2::after {
+      content: ' ✨';
+      animation: sparkle 2.5s infinite alternate;
+      font-size: 1.5em;
+      color: #f7a600;
     }
-  }
-</style>
+
+    @keyframes sparkle {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    @media (max-width: 760px) {
+      form {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<nav role="navigation" aria-label="Primary navigation">
-  <div class="logo" tabindex="0">Disneyland Park</div>
-  <ul>
-    <!-- Open/Closed status display -->
-<div id="openClosedStatus" class="open-closed-status open" aria-live="polite" aria-atomic="true" aria-label="Park status">
-  Open
-</div>
+<form id="applicationForm">
+  <h2>Disneyland Park Developer Application</h2>
 
-<style>
-  .open-closed-status {
-    font-weight: bold;
-    font-size: 2.1rem;
-    padding: 0.5em 1em;
-    border-radius: 1.2em;
-    width: fit-content;
-    user-select: none;
-  }
-  .open-closed-status.open {
-    background-color: #28a745; /* green */
-    color: white;
-  }
-  .open-closed-status.closed {
-    background-color: #d32e2e; /* red */
-    color: rgb(233, 226, 226);
-  }
-</style>
+  <h3>Introductory Information</h3>
+  <label for="robloxUsername">What is your ROBLOX username? *</label>
+  <input id="robloxUsername" name="ROBLOX Username" type="text" required />
 
-<script>
-  function setOpenClosedStatus(isOpen) {
-    const statusEl = document.getElementById('openClosedStatus');
-    if (isOpen) {
-      statusEl.textContent = 'Open';
-      statusEl.classList.add('open');
-      statusEl.classList.remove('closed');
-    } else {
-      statusEl.textContent = 'Closed';
-      statusEl.classList.add('closed');
-      statusEl.classList.remove('open');
-    }
-  }
+  <label for="discordUsername">What is your Discord username? *</label>
+  <input id="discordUsername" name="Discord Username" type="text" required />
 
-  // Example usage:
-  // Initially set to open:
-  setOpenClosedStatus(false);
+  <label for="ownerUsername">What is the username of the owner of Disneyland Park? *</label>
+  <input id="ownerUsername" name="Owner Username" type="text" required />
 
-  // Or to closed:
-  // setOpenClosedStatus(false);
-</script>
-<!-- Warning Banner -->
-<div id="warningBanner" style="
-  background-color: #ffee04;
-  border: 1px solid #000000;
-  color: #000000;
-  font-weight: 100;
-  padding: 12px 20px;
-  border-radius: 8px;
-  max-width: 600px;
-  margin: 20px auto;
-  text-align: center;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 6px rgba(255, 179, 71, 0.3);
-  user-select: none;
-">
-  ⚠ We are working on the website, so there may be some issues. Please contact us if you need any help.
-</div>
+  <label for="showTimes">Select all correct show times for our firework show *</label>
+  <select id="showTimes" name="Firework Show Times" multiple required size="5">
+    <option value="3:15 PM BST/GMT">3:15 PM BST/GMT</option>
+    <option value="10:00 PM BST/GMT">10:00 PM BST/GMT</option>
+    <option value="7:30 PM PST/PDT">7:30 PM PST/PDT</option>
+    <option value="8:15 PM EST/EDT">8:15 PM EST/EDT</option>
+    <option value="8:15 PM CST/CDT">8:15 PM CST/CDT</option>
+  </select>
 
+  <label for="showName">Which show is offered at Disneyland park? *</label>
+  <select id="showName" name="Show Offered" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="It’s Fantastical!">It’s Fantastical!</option>
+    <option value="Dreams Come True">Dreams Come True</option>
+    <option value="Magic Everywhere Fireworks">Magic Everywhere Fireworks</option>
+    <option value="Magic Happens! Parade">Magic Happens! Parade</option>
+  </select>
 
+  <label for="parkLimit">The park has a set limit of people allowed in one server, what is it? *</label>
+  <select id="parkLimit" name="Park Limit" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="75">75</option>
+    <option value="40">40</option>
+    <option value="100">100</option>
+    <option value="0">0</option>
+  </select>
 
-<li><a href="#" class="nav-link active" data-target="home" aria-current="page">Home</a></li>
-    <li><a href="#" class="nav-link" data-target="attractions">Attractions</a></li>
-    <li><a href="#" class="nav-link" data-target="shows">shows</a></li>
-    <li><a href="#" class="nav-link" data-target="Updates">Updates</a></li>
-    <li><a href="#" class="nav-link" data-target="tickets">Tickets</a></li>
-    <li><a href="#" class="nav-link" data-target="contact">Contact</a></li>
-    </ul>
-</nav>
-<main>
-  <section id="home" class="screen active" tabindex="-1" aria-live="polite" aria-label="Home section">
-    <header class="hero" role="banner">
-      <div>
-        <h1>Welcome to Disneyland Park</h1>
-        <p>The happiest place on earth! Explore magical attractions, shows, and dining.</p>
-        <a href="#" class="cta-btn" id="homeBookBtn">Book Tickets</a>
-      </div>
-    </header>
-  </section>
+  <h3>Scenarios</h3>
 
-  <section id="attractions" class="screen" tabindex="-1" aria-live="polite" aria-label="Attractions section">
-    <h2 class="section-title">Popular Attractions</h2>
-    <ul class="list" role="list" aria-label="List of attractions">
-      <li tabindex="0">Space Mountain</li>
-      <li tabindex="0">Pirates of the Caribbean</li>
-      <li tabindex="0">Haunted Mansion</li>
-      <li tabindex="0">Splash Mountain</li>
-      <li tabindex="0">It's a Small World</li>
-    </ul>
-  </section>
+  <label for="scenario1">A guest wants to see a parade on a non-weekend. What do you say? *</label>
+  <select id="scenario1" name="Scenario 1" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="hi come back on the weekend">hi come back on the weekend</option>
+    <option value="That question is the dumbest question ever. I ask that you go home to your dumb family.">That question is the dumbest question ever...</option>
+    <option value="Hello, please check the times located on the calendar.">Hello, please check the times located on the calendar.</option>
+    <option value="Ignore them, leave the game">Ignore them, leave the game</option>
+  </select>
 
-  <section id="shows" class="screen" tabindex="-1" aria-live="polite" aria-label="Shows section">
-    <h2 class="section-title">shows</h2>
-    <div class="cards-container" role="list" aria-label="List of Shows">
-      <article class="card" tabindex="0" role="listitem">
-        <h3>Fantasmic! Night Show</h3>
-        <time datetime="2025-06-20T21:00">June 20, 2025 - 9:00 PM</time>
-        <p>Experience the spectacular nighttime show featuring fireworks, water effects, and beloved Disney characters.</p>
-      </article>
-      <article class="card" tabindex="0" role="listitem">
-        <h3>Mickey's Magic Parade</h3>
-        <time datetime="2025-06-22T15:00">June 22, 2025 - 3:00 PM</time>
-        <p>Join Mickey and friends in a colorful parade filled with music, dancing, and magic along Main Street.</p>
-      </article>
-      <article class="card" tabindex="0" role="listitem">
-        <h3>Frozen Sing-Along</h3>
-        <time datetime="2025-06-25T12:30">June 25, 2025 - 12:30 PM</time>
-        <p>Sing along with Elsa, Anna, and Olaf in this interactive musical show suitable for all ages.</p>
-      </article>
-    </div>
-  </section>
+  <label for="scenario2">A worker is trolling, causing lag. What would you do? *</label>
+  <select id="scenario2" name="Scenario 2" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="Join in, better with more people!">Join in</option>
+    <option value="Go to the Discord and inform a manager.">Inform a manager</option>
+    <option value="Leave the game and do nothing.">Leave and do nothing</option>
+    <option value="Go to the Discord and inform a Guest.">Tell a guest</option>
+  </select>
 
-<section id="Updates" class="screen" tabindex="-1" aria-live="polite" aria-label="Updates section">
-    <h2 class="section-title">Updates</h2>
-    <div class="cards-container" role="list" aria-label="List of Updates">
-      <article class="card" tabindex="0" role="listitem">
-        <h3>Fantasmic! Night Show</h3>
-        <time datetime="2025-06-20T21:00">June 20, 2025 - 9:00 PM</time>
-        <p>Experience the spectacular nighttime show featuring fireworks, water effects, and beloved Disney characters.</p>
-      </article>
-      <article class="card" tabindex="0" role="listitem">
-        <h3>Mickey's Magic Parade</h3>
-        <time datetime="2025-06-22T15:00">June 22, 2025 - 3:00 PM</time>
-        <p>Join Mickey and friends in a colorful parade filled with music, dancing, and magic along Main Street.</p>
-      </article>
-      <article class="card" tabindex="0" role="listitem">
-        <h3>Frozen Sing-Along</h3>
-        <time datetime="2025-06-25T12:30">June 25, 2025 - 12:30 PM</time>
-        <p>Sing along with Elsa, Anna, and Olaf in this interactive musical show suitable for all ages.</p>
-      </article>
-    </div>
-  </section>
+  <label for="scenario3">No Park admins online, someone dressed as character. What do you do? *</label>
+  <select id="scenario3" name="Scenario 3" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="Let the person act.">Let them act</option>
+    <option value="Join in.">Join in</option>
+    <option value="Inform the person to take the costume off.">Ask them to remove costume</option>
+    <option value="Ignore them, ride a few rides.">Ignore</option>
+  </select>
 
-  <section id="tickets" class="screen" tabindex="-1" aria-live="polite" aria-label="Tickets section">
-    <h2 class="section-title">Book Your Tickets</h2>
-    <form id="ticketForm" aria-describedby="formMessage" novalidate>
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" placeholder="Your full name" required aria-required="true" />
+  <label for="scenario4">You're in a meet & greet and called away. Guests don’t want you to leave. What do you say? *</label>
+  <select id="scenario4" name="Scenario 4" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="I’M LEAVING, YOU IMMATURE CHILDREN!">Shout at them</option>
+    <option value="Oh no, it appears that (character) has to go! He/she will return soon.">Politely excuse yourself</option>
+    <option value="Will get another character soon.">Say someone else is coming</option>
+    <option value="-silence-">Say nothing</option>
+  </select>
 
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required aria-required="true" />
+  <label for="scenario5">Your friend wants to go backstage. How do you respond? *</label>
+  <select id="scenario5" name="Scenario 5" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="You can’t be backstage, sorry!">Deny politely</option>
+    <option value="Stop here. You not allowed hear.">Broken English</option>
+    <option value="You are not allowed backstage. Leave now.">Very firm</option>
+    <option value="-silence-">Say nothing</option>
+  </select>
 
-      <label for="ticketType">Ticket Type</label>
-      <select id="ticketType" name="ticketType" required aria-required="true">
-        <option value="" disabled selected>Select a ticket type</option>
-        <option value="one-day">One-Day Ticket</option>
-        <option value="multi-day">Multi-Day Ticket</option>
-        <option value="annual-pass">Annual Pass</option>
-      </select>
+  <h3>Availability</h3>
+  <label for="timezone">Which timezone are you currently in? *</label>
+  <select id="timezone" name="Timezone" required>
+    <option value="" disabled selected>--Select--</option>
+    <option value="GMT / BST">GMT / BST</option>
+    <option value="EST / EDT">EST / EDT</option>
+    <option value="CST / CDT">CST / CDT</option>
+    <option value="PST / PDT">PST / PDT</option>
+    <option value="Other">Other</option>
+  </select>
+<h3>Developer Questions</h3>
 
-      <button type="submit" aria-live="polite">Book Now</button>
-      <div id="formMessage" role="alert" aria-live="assertive"></div>
-    </form>
-  </section>
+<label for="devRole">What development role are you applying for? *</label>
+<select id="devRole" name="Development Role" required>
+  <option value="" disabled selected>--Select--</option>
+  <option value="Builder">Builder</option>
+  <option value="Scripter">Scripter</option>
+  <option value="UI Designer">UI Designer</option>
+  <option value="Animator">Animator</option>
+  <option value="Other">Other</option>
+</select>
 
-  <section id="contact" class="screen" tabindex="-1" aria-live="polite" aria-label="Contact section">
-    <h2 class="section-title">Contact Us</h2>
-    <p>For inquiries, email us at <a href="mailto:disneylandparkonroblox1@gmail.com">disneylandparkonroblox1@gmail.com</a> or coming soon.</p>
-  </section>
-</main>
+<label for="devExperience">How long have you been working in this role? *</label>
+<input type="text" id="devExperience" name="Development Experience" required />
 
-<footer>
-    <!-- Early Access Banner -->
-<div id="earlyAccessBanner" style="
-  background-color: #fdec00;
-  border: 1px solid #000000;
-  color: #000000;
-  font-weight: 100;
-  padding: 12px 20px;
-  border-radius: 8px;
-  max-width: 600px;
-  margin: 20px auto;
-  text-align: center;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 6px rgba(240, 192, 64, 0.3);
-  user-select: none;
-">
-  🛠️ Join our Early Access and help us test new features as they are released.
-</div>
-  &copy; 2025 Disneyland Park. All rights reserved.
-</footer>
+<label for="devTools">What tools or programs do you use? *</label>
+<input type="text" id="devTools" name="Development Tools" required />
+
+<label for="portfolio">Link to your portfolio or examples of past work (if any):</label>
+<input type="text" id="portfolio" name="Portfolio Link" />
+
+<label for="devInterest">Why do you want to develop for Disneyland Park? *</label>
+<textarea id="devInterest" name="Interest in Developing" required></textarea>
+
+<label for="devHours">How many hours per week can you dedicate to development? *</label>
+<input type="text" id="devHours" name="Weekly Hours" required />
+
+<label for="teamwork">Are you comfortable working in a team and receiving feedback? *</label>
+<select id="teamwork" name="Teamwork Comfort" required>
+  <option value="" disabled selected>--Select--</option>
+  <option value="Yes">Yes</option>
+  <option value="No">No</option>
+  <option value="Sometimes">Sometimes</option>
+</select>
+
+  <button type="submit">Submit Application</button>
+</form>
 
 <script>
-  // Navigation
-  const navLinks = document.querySelectorAll('nav .nav-link');
-  const screens = document.querySelectorAll('section.screen');
-  const homeBookBtn = document.getElementById('homeBookBtn');
-
-  function setActiveSection(targetId) {
-    screens.forEach(screen => {
-      if (screen.id === targetId) {
-        screen.classList.add('active');
-        screen.setAttribute('tabindex', '-1');
-        screen.focus();
-      } else {
-        screen.classList.remove('active');
-      }
-    });
-    navLinks.forEach(link => {
-      if (link.dataset.target === targetId) {
-        link.classList.add('active');
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.classList.remove('active');
-        link.removeAttribute('aria-current');
-      }
-    });
-  }
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const target = e.currentTarget.dataset.target;
-      setActiveSection(target);
-    });
-  });
-
-  homeBookBtn.addEventListener('click', e => {
+  document.getElementById("applicationForm").addEventListener("submit", async function (e) {
     e.preventDefault();
-    setActiveSection('tickets');
-    document.getElementById('name').focus();
-  });
 
-  // Ticket form submission with Discord webhook
-  const ticketForm = document.getElementById('ticketForm');
-  const formMessage = document.getElementById('formMessage');
+    const webhookUrl = "https://discord.com/api/webhooks/1392479510540062800/W7uMHroyxbJiFQ-jlTykqiaAHZyIXtqka3Qr4UlJ6PDrJ7dVU_cmqX9A6_VO4N7E_mfC"; // Replace with your actual webhook URL
 
-  ticketForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    formMessage.textContent = '';
-    formMessage.className = '';
-
-    const name = ticketForm.name.value.trim();
-    const email = ticketForm.email.value.trim();
-    const ticketType = ticketForm.ticketType.value;
-
-    if (!name || !email || !ticketType) {
-      formMessage.textContent = 'Please fill in all required fields.';
-      formMessage.className = 'error-message';
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      formMessage.textContent = 'Please enter a valid email address.';
-      formMessage.className = 'error-message';
-      return;
-    }
-
-    ticketForm.querySelector('button[type="submit"]').disabled = true;
-
-    const webhookURL = 'https://discord.com/api/webhooks/1383624872437088308/g2N1-j2drJBtwBN32x66eDrDIknwj25-xJHNXk-vm0PYGOh9_ASvG5X7nmCqdjW1gKVQ'; // Replace this
+    const getVal = id => document.getElementById(id)?.value;
+    const getMulti = id =>
+      Array.from(document.getElementById(id)?.selectedOptions || [])
+        .map(opt => opt.value)
+        .join(", ");
 
     const payload = {
-      username: "Disneyland Ticket Bot",
-      embeds: [
-        {
-          title: "New Ticket Booking",
-          color: 0x0046be,
-          fields: [
-            { name: "Name", value: name, inline: true },
-            { name: "Email", value: email, inline: true },
-            { name: "Ticket Type", value: ticketType, inline: false },
-          ],
-          timestamp: new Date().toISOString()
-        }
-      ]
+      username: "Disneyland Application Bot",
+      embeds: [{
+        title: "🎡 New Disneyland Developer Application",
+        color: 3447003,
+      fields: [
+  { name: "ROBLOX Username", value: getVal("robloxUsername") },
+  { name: "Discord Username", value: getVal("discordUsername") },
+  { name: "Owner Username", value: getVal("ownerUsername") },
+  { name: "Firework Show Times", value: getMulti("showTimes") },
+  { name: "Show Offered", value: getVal("showName") },
+  { name: "Park Limit", value: getVal("parkLimit") },
+  { name: "Scenario 1", value: getVal("scenario1") },
+  { name: "Scenario 2", value: getVal("scenario2") },
+  { name: "Scenario 3", value: getVal("scenario3") },
+  { name: "Scenario 4", value: getVal("scenario4") },
+  { name: "Scenario 5", value: getVal("scenario5") },
+  { name: "Timezone", value: getVal("timezone") },
+  { name: "Development Role", value: getVal("devRole") },
+  { name: "Development Experience", value: getVal("devExperience") },
+  { name: "Development Tools", value: getVal("devTools") },
+  { name: "Portfolio Link", value: getVal("portfolio") || "None provided" },
+  { name: "Interest in Developing", value: getVal("devInterest") },
+  { name: "Weekly Hours", value: getVal("devHours") },
+  { name: "Teamwork Comfort", value: getVal("teamwork") }
+ ],
+        footer: { text: "Disneyland Park Application System" },
+        timestamp: new Date().toISOString()
+      }]
     };
 
     try {
-      const response = await fetch(webhookURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) throw new Error(`Discord webhook error: ${response.statusText}`);
-
-      formMessage.textContent = 'Thank you! Your ticket booking was sent successfully.';
-      formMessage.className = 'success-message';
-      ticketForm.reset();
-    } catch (error) {
-      console.error('Error sending webhook:', error);
-      formMessage.textContent = 'Oops! Something went wrong. Please try again later.';
-      formMessage.className = 'error-message';
-    } finally {
-      ticketForm.querySelector('button[type="submit"]').disabled = false;
+      if (res.ok) {
+        alert("✅ Application submitted successfully!");
+        e.target.reset();
+      } else {
+        alert("❌ Failed to submit. Check your webhook URL.");
+      }
+    } catch (err) {
+      console.error("Discord error:", err);
+      alert("❌ Error sending to Discord.");
     }
   });
-
-  function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
 </script>
 
 </body>
 </html>
-<section id="applications" class="screen" tabindex="-1" aria-live="polite" aria-label="Applications section">
-  <h2 class="section-title">Applications</h2>
-  <form id="applicationForm" aria-describedby="appFormMessage" novalidate>
-    <label for="appName">Full Name</label>
-    <input type="text" id="appName" name="appName" placeholder="Your full name" required aria-required="true" />
-    
-    <label for="appEmail">Email Address</label>
-    <input type="email" id="appEmail" name="appEmail" placeholder="you@example.com" required aria-required="true" />
-    
-    <label for="appMessage">Application Details</label>
-    <textarea id="appMessage" name="appMessage" rows="5" placeholder="Tell us about yourself or your application..." required aria-required="true"></textarea>
-    
-    <button type="submit" aria-live="polite">Submit Application</button>
-    <div id="appFormMessage" role="alert" aria-live="assertive"></div>
-  </form>
-</section>
-
-<style>
-  /* Application form styles (reuse your variables) */
-  #applicationForm {
-    max-width: 450px;
-    background: #f0f4ff;
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    margin-top: 1rem;
-  }
-  #applicationForm label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-weight: 600;
-    color: var(--primary-blue);
-  }
-  #applicationForm input,
-  #applicationForm textarea {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: 'Open Sans', sans-serif;
-  }
-  #applicationForm button {
-    background-color: var(--secondary-gold);
-    color: var(--primary-blue);
-    font-weight: 700;
-    padding: 0.75rem 2rem;
-    border: none;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(249,168,37,0.7);
-    transition: background-color var(--transition-time), box-shadow var(--transition-time);
-  }
-  #applicationForm button:hover,
-  #applicationForm button:focus-visible {
-    background-color: #c68500;
-    box-shadow: 0 12px 35px rgba(198,133,0,0.9);
-    outline: none;
-  }
-  #appFormMessage {
-    font-weight: 600;
-    margin-top: 0.5rem;
-  }
-  .success-message {
-    color: green;
-  }
-  .error-message {
-    color: red;
-  }
-</style>
 
 
 
